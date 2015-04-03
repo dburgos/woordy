@@ -1,0 +1,16 @@
+{
+  "name": "woordy",
+  "version": "0.0.1",
+  "homepage": "https://github.com/dburgos/woordy",
+  "authors": [
+    "dburgos <david.burgos.risco@gmail.com>"
+  ],
+  "description": "Words game",
+  "main": "index.html",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "~3.3.4",
+    "angular": "~1.3.15"
+  }
+}
