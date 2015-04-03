@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Woordy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <header role="banner">
+    <h1>
+      <a class="brand">Woordy</a>
+    </h1>
+    <nav role="navigation">
+      <ul class="navbar">
+        <li><a href="#">New game</a></li>
+        <li><a href="#">Highscore</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section role="main">
+
+    <h2>New game</h2>
+
+    <p>What's your name buddy?</p>
+
+    <input type="text" value="" id="playerName" placeholder="David" />
+
+    <button>Play</button>
+
+  </section>
+  <section role="game">
+
+    <h2>A word goes here</h2>
+    <h3>40 seconds left</h3>
+
+    <p>Guess the word and write it above, then press ENTER</p>
+
+    <input type="text" value="" id="inputGuess" placeholder="Write here" />
+
+  </section>
+  <section role="highscore">
+
+    <h2>Highscore</h2>
+
+    <ul>
+      <li>Under construction</li>
+    </ul>
+
+  </section>
+  <footer role="countdown">
+    <progress value="0" max="100"></progress>
+  </footer>
+</body>
+</html>
