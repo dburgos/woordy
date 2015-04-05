@@ -7,6 +7,16 @@
 
   function startCtrl($scope) {
     'use strict';
-    // ready
+    /* jshint validthis: true */
+    var vm = this;
+
+    $scope.play = function() {
+      var playerName = $scope.$parent.game.playerName;
+      // If the player name is valid, then play
+      if(playerName && playerName.length > 3) {
+        $scope.$parent.game.status = "play";
+      }
+    }
+
   }
 })();
