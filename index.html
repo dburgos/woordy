@@ -6,11 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="bower_components/angular/angular.min.js"></script>
   <script src="js/woordyApp.js"></script>
+  <script src="js/controllers/gameCtrl.js"></script>
   <script src="js/controllers/startCtrl.js"></script>
   <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
-<body>
+<body ng-controller="gameCtrl as game">
   <header role="banner">
     <h1>
       <a class="brand">Woordy</a>
@@ -22,7 +23,7 @@
       </ul>
     </nav>
   </header>
-  <section role="start" ng-controller="startCtrl">
+  <section role="start" ng-controller="startCtrl" ng-show="game.status == 'new'">
 
     <h2>New game</h2>
 
@@ -33,7 +34,7 @@
     <button>Play</button>
 
   </section>
-  <section role="game">
+  <section role="game" ng-show="game.status == 'play'">
 
     <h2>A word goes here</h2>
     <h3>40 seconds left</h3>
@@ -43,7 +44,7 @@
     <input type="text" value="" id="inputGuess" placeholder="Write here" />
 
   </section>
-  <section role="highscore">
+  <section role="highscore" ng-show="game.status == 'highscore'">
 
     <h2>Highscore</h2>
 
@@ -52,7 +53,7 @@
     </ul>
 
   </section>
-  <footer role="countdown">
+  <footer role="countdown" ng-show="game.status == 'play'">
     <progress value="0" max="100"></progress>
   </footer>
 </body>
