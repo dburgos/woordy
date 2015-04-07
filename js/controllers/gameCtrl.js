@@ -86,14 +86,15 @@
     var _mangle = function(word) {
       if(word && word.length > 0) {
         var mangled = "";
+        var originalLength = word.length;
         // For each char
-        for(var i=0; i<word.length; i++) {
+        for(var i=0; i<originalLength; i++) {
           // Get a random char
           var random = _random(0, word.length);
           // Save it
           mangled += word.charAt(random);
           // Remove it from the original word
-          word = word.slice(0, random) + word.slice(random);
+          word = word.slice(0, random) + word.slice(random+1);
         }
         return mangled;
       }
