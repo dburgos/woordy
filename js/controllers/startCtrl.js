@@ -14,7 +14,7 @@
       var playerName = $scope.$parent.game.playerName;
       // If the player name is valid, then play
       if(playerName && playerName.length > 3) {
-        $scope.$parent.game.status = "play";
+        $scope.$parent.game.status = 'play';
       }
     }
 
