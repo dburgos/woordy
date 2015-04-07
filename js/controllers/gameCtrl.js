@@ -15,6 +15,7 @@
     vm.playedList = [];
     vm.timer = null;
     vm.timeLeft = 0;
+    vm.score = 0;
 
     API.Words.getAll().success(function(data) {
       if(data && data.results && data.results.length > 0) {
@@ -32,6 +33,7 @@
 
     var newGame = function() {
       vm.playedList = [];
+      vm.score = 0;
       vm.timeLeft = CONFIG.timeout;
       vm.word = _selectWord();
       vm.word = _mangle(vm.word);
@@ -44,7 +46,7 @@
       vm.timeLeft -= 1;
 
       if(vm.timeLeft <= 0) {
-        gameOver();
+        _gameOver();
       }
     };
 
@@ -96,6 +98,13 @@
         return mangled;
       }
       return word;
+    };
+
+    var _gameOver = function() {
+      // Stop and remove the timer
+      $interval.cancel(vm.timer);
+      vm.timer = null;
+      vm.status = 'gameover';
     };
 
     var _random = function(min, max) {
