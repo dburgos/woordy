@@ -10,11 +10,14 @@
     /* jshint validthis: true */
     var vm = this;
     vm.status = 'new';
+    vm.input = '';
     vm.word = '';
+    vm.originalWord = '';
     vm.wordList = [];
     vm.playedList = [];
     vm.timer = null;
     vm.timeLeft = 0;
+    vm.deletes = 0;
     vm.score = 0;
 
     API.Words.getAll().success(function(data) {
@@ -31,12 +34,19 @@
       }
     });
 
+    $scope.$watch(function () {
+      return vm.input;
+    }, function (current, original) {
+      checkInput(current, original);
+    });
+
     var newGame = function() {
       vm.playedList = [];
       vm.score = 0;
+      vm.deletes = 0;
       vm.timeLeft = CONFIG.timeout;
-      vm.word = _selectWord();
-      vm.word = _mangle(vm.word);
+      vm.originalWord = _selectWord();
+      vm.word = _mangle(vm.originalWord);
       vm.timer = $interval(function() {
         gameLoop();
       }, 1000);
@@ -47,6 +57,19 @@
 
       if(vm.timeLeft <= 0) {
         _gameOver();
+      }
+    };
+
+    var checkInput = function(now, before) {
+      if(now && before) {
+        var isRemoving = now.length < before.length;
+        if(isRemoving) {
+          vm.deletes++;
+        }
+
+        if(now == vm.originalWord) {
+          _guessSuccess();
+        }
       }
     };
 
@@ -106,6 +129,29 @@
       $interval.cancel(vm.timer);
       vm.timer = null;
       vm.status = 'gameover';
+    };
+
+    var _guessSuccess = function() {
+      // Calculate score
+      var score = _calculateScore(vm.originalWord, vm.deletes, -1);
+      // Add
+      vm.score += score;
+      // Next word
+      vm.originalWord = _selectWord();
+      vm.word = _mangle(vm.originalWord);
+      // Clean
+      vm.input = '';
+    };
+
+    var _calculateScore = function(originalWord, deletes, deleteScore) {
+      var length = originalWord.length;
+      var score = Math.floor(Math.pow(1.95,length/3));
+      var penalty = deletes * -1;
+      score += penalty;
+      if(score < 0) {
+        score = 0;
+      }
+      return score;
     };
 
     var _random = function(min, max) {

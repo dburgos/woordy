@@ -40,10 +40,11 @@
 
     <h2>{{game.word}}</h2>
     <h3>{{game.timeLeft}} seconds left</h3>
+    <h4>{{game.score}}</h4>
 
     <p>Guess the word and write it above, then press ENTER</p>
 
-    <input type="text" value="" id="inputGuess" placeholder="Write here" />
+    <input type="text" ng-model="game.input" placeholder="Write here" />
 
   </section>
   <section role="gameover" ng-controller="startCtrl" ng-show="game.status == 'gameover'">
