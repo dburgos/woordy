@@ -12,6 +12,7 @@
     vm.status = 'new';
     vm.input = '';
     vm.word = '';
+    vm.playerName = '';
     vm.originalWord = '';
     vm.wordList = [];
     vm.playedList = [];
@@ -129,6 +130,14 @@
       $interval.cancel(vm.timer);
       vm.timer = null;
       vm.status = 'gameover';
+      // Save score
+      var data = {
+        player: vm.playerName,
+        score: vm.score
+      };
+      API.Scores.create(data).success(function(data) {
+        console.log(data);
+      });
     };
 
     var _guessSuccess = function() {
