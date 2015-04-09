@@ -16,11 +16,13 @@
     vm.originalWord = '';
     vm.wordList     = [];
     vm.playedList   = [];
+    vm.highscores   = [];
     vm.myHighscore  = [];
     vm.timer        = null;
     vm.timeLeft     = 0;
     vm.deletes      = 0;
     vm.score        = 0;
+    vm.viewHighscore = false;
 
     API.Words.getAll().success(function(data) {
       if(data && data.results && data.results.length > 0) {
@@ -30,7 +32,7 @@
 
     $scope.$watch(function () {
       return vm.status;
-    }, function (current, original) {
+    }, function (current, before) {
       if(current === 'play') {
         newGame();
       }
@@ -38,8 +40,16 @@
 
     $scope.$watch(function () {
       return vm.input;
-    }, function (current, original) {
-      checkInput(current, original);
+    }, function (current, before) {
+      checkInput(current, before);
+    });
+
+    $scope.$watch(function () {
+      return vm.viewHighscore;
+    }, function (current, before) {
+      if(current === true) {
+        loadHighscores();
+      }
     });
 
     var newGame = function() {
@@ -99,6 +109,18 @@
         score: vm.score
       };
       API.Scores.create(data);
+    };
+
+    var loadHighscores = function() {
+      var query = {
+        order: "-score",
+        limit: 10
+      }
+      API.Scores.query(query).success(function(res) {
+        if(res && res.results && res.results.length > 0) {
+          vm.highscores = res.results;
+        }
+      });
     };
 
     var guessSuccess = function() {

@@ -22,8 +22,8 @@
     </h1>
     <nav role="navigation">
       <ul class="navbar">
-        <li><a href="#">New game</a></li>
-        <li><a href="#">Highscore</a></li>
+        <li><a ng-click="game.viewHighscore = false;">Play</a></li>
+        <li><a ng-click="game.viewHighscore = true;">Highscore</a></li>
       </ul>
     </nav>
   </header>
@@ -63,12 +63,14 @@
     <button type="button" ng-click="play()">Play again</button>
 
   </section>
-  <section role="highscore" ng-show="game.status == 'highscore'">
+  <section role="highscore" ng-show="game.viewHighscore === true">
 
     <h2>Highscore</h2>
 
-    <ul>
-      <li>Under construction</li>
+    <ul ng-if="game.highscores.length > 0">
+      <li ng-repeat="prevGame in game.highscores">
+        {{prevGame.score}} - {{prevGame.player}}
+      </li>
     </ul>
 
   </section>
