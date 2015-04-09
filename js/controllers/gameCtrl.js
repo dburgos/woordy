@@ -3,9 +3,9 @@
 
   angular
     .module('woordyApp')
-    .controller('gameCtrl', ['$scope', '$interval','API', gameCtrl]);
+    .controller('gameCtrl', ['$scope','$interval','API','core', gameCtrl]);
 
-  function gameCtrl($scope, $interval, API) {
+  function gameCtrl($scope, $interval, API, core) {
     'use strict';
     /* jshint validthis: true */
     var vm = this;
@@ -46,8 +46,8 @@
       vm.score = 0;
       vm.deletes = 0;
       vm.timeLeft = CONFIG.timeout;
-      vm.originalWord = _selectWord();
-      vm.word = _mangle(vm.originalWord);
+      vm.originalWord = core.selectWord(vm.wordList, vm.playedList);
+      vm.word = core.mangle(vm.originalWord);
       vm.timer = $interval(function() {
         gameLoop();
       }, 1000);
@@ -74,57 +74,6 @@
       }
     };
 
-    var _selectWord = function() {
-      var selected = null;
-      if(vm.wordList.length === vm.playedList.length) {
-        // If already played all the words,
-        // just pick a random one
-        var random = _random(0,vm.wordList.length);
-        selected = vm.wordList[random];
-      } else {
-        while(! selected) {
-          var random = _random(0,vm.wordList.length);
-          selected = vm.wordList[random].label;
-          if(_isPlayedWord(selected)) {
-            selected = null;
-          }
-        }
-      }
-      return selected;
-    };
-
-    var _isPlayedWord = function(word) {
-      var isPlayed = false;
-      var hasPlayed = vm.playedList.length > 0;
-      if(hasPlayed) {
-        var length = vm.wordList.length;
-        for(var i=0; !isPlayed && i<length; i++) {
-          if(vm.playedList.length < i) {
-            isPlayed = vm.playedList[i].label == word;
-          }
-        }
-      }
-      return isPlayed;
-    };
-
-    var _mangle = function(word) {
-      if(word && word.length > 0) {
-        var mangled = "";
-        var originalLength = word.length;
-        // For each char
-        for(var i=0; i<originalLength; i++) {
-          // Get a random char
-          var random = _random(0, word.length);
-          // Save it
-          mangled += word.charAt(random);
-          // Remove it from the original word
-          word = word.slice(0, random) + word.slice(random+1);
-        }
-        return mangled;
-      }
-      return word;
-    };
-
     var _gameOver = function() {
       // Stop and remove the timer
       $interval.cancel(vm.timer);
@@ -135,36 +84,19 @@
         player: vm.playerName,
         score: vm.score
       };
-      API.Scores.create(data).success(function(data) {
-        console.log(data);
-      });
+      API.Scores.create(data);
     };
 
     var _guessSuccess = function() {
       // Calculate score
-      var score = _calculateScore(vm.originalWord, vm.deletes, -1);
+      var score = core.getScore(vm.originalWord, vm.deletes, -1);
       // Add
       vm.score += score;
       // Next word
-      vm.originalWord = _selectWord();
-      vm.word = _mangle(vm.originalWord);
+      vm.originalWord = core.selectWord(vm.wordList, vm.playedList);
+      vm.word = core.mangle(vm.originalWord);
       // Clean
       vm.input = '';
-    };
-
-    var _calculateScore = function(originalWord, deletes, deleteScore) {
-      var length = originalWord.length;
-      var score = Math.floor(Math.pow(1.95,length/3));
-      var penalty = deletes * -1;
-      score += penalty;
-      if(score < 0) {
-        score = 0;
-      }
-      return score;
-    };
-
-    var _random = function(min, max) {
-      return Math.floor(Math.random() * max) + min;
     };
   }
 })();
