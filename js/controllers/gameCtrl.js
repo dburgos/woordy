@@ -84,9 +84,7 @@
         order: "-score",
         limit: 10
       }
-      console.log("before");
       API.Scores.query(query).success(function(res) {
-        console.log(res);
         if(res && res.results && res.results.length > 0) {
           vm.myHighscore = res.results;
         }
