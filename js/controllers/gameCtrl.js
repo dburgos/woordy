@@ -8,18 +8,18 @@
   function gameCtrl($scope, $interval, API, core) {
     'use strict';
     /* jshint validthis: true */
-    var vm = this;
-    vm.status = 'new';
-    vm.input = '';
-    vm.word = '';
-    vm.playerName = '';
+    var vm          = this;
+    vm.status       = 'new';
+    vm.input        = '';
+    vm.word         = '';
+    vm.playerName   = '';
     vm.originalWord = '';
-    vm.wordList = [];
-    vm.playedList = [];
-    vm.timer = null;
-    vm.timeLeft = 0;
-    vm.deletes = 0;
-    vm.score = 0;
+    vm.wordList     = [];
+    vm.playedList   = [];
+    vm.timer        = null;
+    vm.timeLeft     = 0;
+    vm.deletes      = 0;
+    vm.score        = 0;
 
     API.Words.getAll().success(function(data) {
       if(data && data.results && data.results.length > 0) {
@@ -42,13 +42,13 @@
     });
 
     var newGame = function() {
-      vm.playedList = [];
-      vm.score = 0;
-      vm.deletes = 0;
-      vm.timeLeft = CONFIG.timeout;
-      vm.originalWord = core.selectWord(vm.wordList, vm.playedList);
-      vm.word = core.mangle(vm.originalWord);
-      vm.timer = $interval(function() {
+      vm.playedList   = [];
+      vm.score        = 0;
+      vm.deletes      = 0;
+      vm.timeLeft     = CONFIG.timeout;
+      vm.originalWord = core.words.pickOne(vm.wordList, vm.playedList);
+      vm.word         = core.words.mangle(vm.originalWord);
+      vm.timer        = $interval(function() {
         gameLoop();
       }, 1000);
     };
@@ -57,7 +57,7 @@
       vm.timeLeft -= 1;
 
       if(vm.timeLeft <= 0) {
-        _gameOver();
+        gameOver();
       }
     };
 
@@ -69,12 +69,12 @@
         }
 
         if(now == vm.originalWord) {
-          _guessSuccess();
+          guessSuccess();
         }
       }
     };
 
-    var _gameOver = function() {
+    var gameOver = function() {
       // Stop and remove the timer
       $interval.cancel(vm.timer);
       vm.timer = null;
@@ -87,14 +87,14 @@
       API.Scores.create(data);
     };
 
-    var _guessSuccess = function() {
+    var guessSuccess = function() {
       // Calculate score
       var score = core.getScore(vm.originalWord, vm.deletes, -1);
       // Add
       vm.score += score;
       // Next word
-      vm.originalWord = core.selectWord(vm.wordList, vm.playedList);
-      vm.word = core.mangle(vm.originalWord);
+      vm.originalWord = core.words.pickOne(vm.wordList, vm.playedList);
+      vm.word = core.words.mangle(vm.originalWord);
       // Clean
       vm.input = '';
     };

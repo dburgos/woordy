@@ -1,7 +1,7 @@
 (function(){
   'use strict';
     angular
-      .module('woordyApp',[])
+      .module('woordyApp')
       .factory('API',['$http','CREDENTIALS',function($http,CREDENTIALS){
       return {
         Words: {
