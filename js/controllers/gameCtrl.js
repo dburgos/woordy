@@ -16,6 +16,7 @@
     vm.originalWord = '';
     vm.wordList     = [];
     vm.playedList   = [];
+    vm.myHighscore  = [];
     vm.timer        = null;
     vm.timeLeft     = 0;
     vm.deletes      = 0;
@@ -43,6 +44,7 @@
 
     var newGame = function() {
       vm.playedList   = [];
+      vm.myHighscore  = [];
       vm.score        = 0;
       vm.deletes      = 0;
       vm.timeLeft     = CONFIG.timeout;
@@ -75,6 +77,20 @@
     };
 
     var gameOver = function() {
+      var query = {
+        where: {
+          player: vm.playerName
+        },
+        order: "-score",
+        limit: 10
+      }
+      console.log("before");
+      API.Scores.query(query).success(function(res) {
+        console.log(res);
+        if(res && res.results && res.results.length > 0) {
+          vm.myHighscore = res.results;
+        }
+      });
       // Stop and remove the timer
       $interval.cancel(vm.timer);
       vm.timer = null;

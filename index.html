@@ -54,6 +54,12 @@
     <h2>Gameover</h2>
     <h3>Your score was {{game.score}}</h3>
 
+    <ul ng-if="game.myHighscore.length > 0">
+      <li ng-repeat="prevGame in game.myHighscore">
+        {{prevGame.score}}
+      </li>
+    </ul>
+
     <button type="button" ng-click="play()">Play again</button>
 
   </section>
