@@ -66,6 +66,15 @@
               }
             });
           },
+          query:function(params){
+            return $http.get('https://api.parse.com/1/classes/Score', {
+              headers:{
+                'X-Parse-Application-Id': CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': CREDENTIALS.REST_API_KEY,
+              },
+              params: params
+            });
+          },
           create:function(data){
             return $http.post('https://api.parse.com/1/classes/Score',data,{
               headers:{
