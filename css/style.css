@@ -1,0 +1,86 @@
+nav {
+  margin: 2rem 0 3rem 0;
+}
+
+input[type="text"] {
+  font-size: 2.5rem;
+  padding: .5rem;
+  min-width: 210px;
+  width: 40%;
+  vertical-align: middle;
+}
+
+.pointer:hover {
+  cursor: pointer;
+}
+
+.progress {
+  position: fixed;
+  bottom: 0;
+  left: 5px;
+  width: 99%;
+}
+
+ul.score {
+  list-style: none;
+  text-align: left;
+  width: 200px;
+  margin: 0 auto;
+}
+
+#timeLeft {
+  position: fixed;
+  bottom: 5rem;
+  width: 50%;
+}
+
+#myScore {
+  position: fixed;
+  top: 5rem;
+  right: 5rem;
+}
+
+@-webkit-keyframes color_change {
+  0% { background-color: white; }
+  25% { background-color: #ccfdfd; }
+  50% { background-color: #ccfdcd; }
+  75% { background-color: #fdf3cc; }
+  100% { background-color: #fdccd7; }
+}
+@-moz-keyframes color_change {
+  0% { background-color: white; }
+  25% { background-color: #ccfdfd; }
+  50% { background-color: #ccfdcd; }
+  75% { background-color: #fdf3cc; }
+  100% { background-color: #fdccd7; }
+}
+@-ms-keyframes color_change {
+  0% { background-color: white; }
+  25% { background-color: #ccfdfd; }
+  50% { background-color: #ccfdcd; }
+  75% { background-color: #fdf3cc; }
+  100% { background-color: #fdccd7; }
+}
+@-o-keyframes color_change {
+  0% { background-color: white; }
+  25% { background-color: #ccfdfd; }
+  50% { background-color: #ccfdcd; }
+  75% { background-color: #fdf3cc; }
+  100% { background-color: #fdccd7; }
+}
+@keyframes color_change {
+  0% { background-color: white; }
+  25% { background-color: #ccfdfd; }
+  50% { background-color: #ccfdcd; }
+  75% { background-color: #fdf3cc; }
+  100% { background-color: #fdccd7; }
+}
+
+body {
+  background-color: white;
+ -webkit-animation: color_change 20s infinite alternate;
+ -moz-animation: color_change 20s infinite alternate;
+ -ms-animation: color_change 20s infinite alternate;
+ -o-animation: color_change 20s infinite alternate;
+ animation: color_change 20s infinite alternate;
+}
