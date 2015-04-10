@@ -2,6 +2,7 @@
 <html lang="en" ng-app="woordyApp">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Woordy</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="bower_components/angular/angular.min.js"></script>
@@ -15,67 +16,70 @@
   <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
-<body ng-controller="gameCtrl as game">
-  <header role="banner">
-    <h1>
-      <a class="brand">Woordy</a>
-    </h1>
-    <nav role="navigation">
-      <ul class="navbar">
-        <li><a ng-click="game.viewHighscore = false;">Play</a></li>
-        <li><a ng-click="game.viewHighscore = true;">Highscore</a></li>
+<body ng-controller="gameCtrl as game" class="container-fluid">
+  <article class="col-xs-12 col-md-6 col-md-offset-3 text-center">
+    <header role="banner">
+      <h1>Woordy</h1>
+      <nav role="navigation" class="col-xs-8 col-xs-offset-4">
+        <ul class="nav nav-pills">
+          <li ng-class="{ active: !game.viewHighscore }" class="pointer" role="presentation"><a ng-click="game.viewHighscore = false;">Play</a></li>
+          <li ng-class="{ active: game.viewHighscore }" class="pointer" role="presentation"><a ng-click="game.viewHighscore = true;">Highscore</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section class="row" role="start" ng-controller="startCtrl" ng-show="game.status == 'new' && !game.viewHighscore">
+
+      <h2>New game</h2>
+
+      <p>What's your name?</p>
+
+      <input type="text" ng-model="$parent.game.playerName" placeholder="David" />
+
+      <button type="button" ng-click="play()" class="btn btn-success btn-lg">Play</button>
+
+    </section>
+    <section class="row" role="game" ng-show="game.status == 'play' && !game.viewHighscore">
+
+      <h2>{{game.word}}</h2>
+
+      <h3 id="myScore">{{game.score}}</h3>
+
+      <input type="text" ng-model="game.input" placeholder="Guess the word" />
+
+    </section>
+    <section class="row" role="gameover" ng-controller="startCtrl" ng-show="game.status == 'gameover'">
+
+      <h2>Gameover</h2>
+      <button type="button" ng-click="play()" class="btn btn-success btn-lg">Play again</button>
+      <h3>Your score was {{game.score}}</h3>
+      <h4 ng-if="game.myHighscore.length > 0">Your previous scores: </h4>
+      <ul ng-if="game.myHighscore.length > 0" class="score">
+        <li ng-repeat="prevGame in game.myHighscore">
+          {{prevGame.score}}
+        </li>
       </ul>
-    </nav>
-  </header>
-  <section role="start" ng-controller="startCtrl" ng-show="game.status == 'new'">
 
-    <h2>New game</h2>
+    </section>
+    <section role="highscore" ng-show="game.viewHighscore === true">
 
-    <p>What's your name buddy?</p>
+      <h2>Highscore</h2>
 
-    <input type="text" ng-model="$parent.game.playerName" placeholder="David" />
+      <ul ng-if="game.highscores.length > 0" class="score">
+        <li ng-repeat="prevGame in game.highscores">
+          {{prevGame.score}} - {{prevGame.player}}
+        </li>
+      </ul>
 
-    <button type="button" ng-click="play()">Play</button>
+    </section>
+  </article>
 
-  </section>
-  <section role="game" ng-show="game.status == 'play'">
+  <article ng-show="game.status == 'play'">
+    <h3 id="timeLeft">{{game.timeLeft}} seconds left</h3>
+    <div class="progress" role="countdown">
+      <div class="progress-bar" role="progressbar" style="width: {{ game.timeLeft * 100 / game.maxTimeleft }}%;" ng-class="{ 'progress-bar-info': game.timeLeft >= 30, 'progress-bar-success': game.timeLeft >= 20 && game.timeLeft < 30, 'progress-bar-warning': game.timeLeft >= 10 && game.timeLeft < 20, 'progress-bar-danger': game.timeLeft < 10 }"></div>
+    </div>
+  </article>
 
-    <h2>{{game.word}}</h2>
-    <h3>{{game.timeLeft}} seconds left</h3>
-    <h4>{{game.score}}</h4>
 
-    <p>Guess the word and write it above, then press ENTER</p>
-
-    <input type="text" ng-model="game.input" placeholder="Write here" />
-
-  </section>
-  <section role="gameover" ng-controller="startCtrl" ng-show="game.status == 'gameover'">
-
-    <h2>Gameover</h2>
-    <h3>Your score was {{game.score}}</h3>
-
-    <ul ng-if="game.myHighscore.length > 0">
-      <li ng-repeat="prevGame in game.myHighscore">
-        {{prevGame.score}}
-      </li>
-    </ul>
-
-    <button type="button" ng-click="play()">Play again</button>
-
-  </section>
-  <section role="highscore" ng-show="game.viewHighscore === true">
-
-    <h2>Highscore</h2>
-
-    <ul ng-if="game.highscores.length > 0">
-      <li ng-repeat="prevGame in game.highscores">
-        {{prevGame.score}} - {{prevGame.player}}
-      </li>
-    </ul>
-
-  </section>
-  <footer role="countdown" ng-show="game.status == 'play'">
-    <progress value="0" max="100"></progress>
-  </footer>
 </body>
 </html>

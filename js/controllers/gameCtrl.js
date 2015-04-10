@@ -20,6 +20,7 @@
     vm.myHighscore  = [];
     vm.timer        = null;
     vm.timeLeft     = 0;
+    vm.maxTimeleft  = CONFIG.timeout;
     vm.deletes      = 0;
     vm.score        = 0;
     vm.viewHighscore = false;
@@ -104,11 +105,13 @@
       vm.timer = null;
       vm.status = 'gameover';
       // Save score
-      var data = {
-        player: vm.playerName,
-        score: vm.score
-      };
-      API.Scores.create(data);
+      if(vm.score > 0) {
+        var data = {
+          player: vm.playerName,
+          score: vm.score
+        };
+        API.Scores.create(data);
+      }
     };
 
     var loadHighscores = function() {
