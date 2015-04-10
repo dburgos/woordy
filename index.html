@@ -47,7 +47,7 @@
       <input type="text" ng-model="game.input" placeholder="Guess the word" />
 
     </section>
-    <section class="row" role="gameover" ng-controller="startCtrl" ng-show="game.status == 'gameover'">
+    <section class="row" role="gameover" ng-controller="startCtrl" ng-show="game.status == 'gameover' && !game.viewHighscore">
 
       <h2>Gameover</h2>
       <button type="button" ng-click="play()" class="btn btn-success btn-lg">Play again</button>
