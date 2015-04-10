@@ -39,3 +39,48 @@ ul.score {
   top: 5rem;
   right: 5rem;
 }
+
+@-webkit-keyframes color_change {
+  0% { background-color: white; }
+  25% { background-color: #ccfdfd; }
+  50% { background-color: #ccfdcd; }
+  75% { background-color: #fdf3cc; }
+  100% { background-color: #fdccd7; }
+}
+@-moz-keyframes color_change {
+  0% { background-color: white; }
+  25% { background-color: #ccfdfd; }
+  50% { background-color: #ccfdcd; }
+  75% { background-color: #fdf3cc; }
+  100% { background-color: #fdccd7; }
+}
+@-ms-keyframes color_change {
+  0% { background-color: white; }
+  25% { background-color: #ccfdfd; }
+  50% { background-color: #ccfdcd; }
+  75% { background-color: #fdf3cc; }
+  100% { background-color: #fdccd7; }
+}
+@-o-keyframes color_change {
+  0% { background-color: white; }
+  25% { background-color: #ccfdfd; }
+  50% { background-color: #ccfdcd; }
+  75% { background-color: #fdf3cc; }
+  100% { background-color: #fdccd7; }
+}
+@keyframes color_change {
+  0% { background-color: white; }
+  25% { background-color: #ccfdfd; }
+  50% { background-color: #ccfdcd; }
+  75% { background-color: #fdf3cc; }
+  100% { background-color: #fdccd7; }
+}
+
+body {
+  background-color: white;
+ -webkit-animation: color_change 20s infinite alternate;
+ -moz-animation: color_change 20s infinite alternate;
+ -ms-animation: color_change 20s infinite alternate;
+ -o-animation: color_change 20s infinite alternate;
+ animation: color_change 20s infinite alternate;
+}
