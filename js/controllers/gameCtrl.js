@@ -136,6 +136,7 @@
       vm.word = core.words.mangle(vm.originalWord);
       // Clean
       vm.input = '';
+      vm.deletes = 0;
     };
   }
 })();
