@@ -1,6 +1,8 @@
 # woordy
 Guess unmangled words game
 
+![Screenshot](http://s9.postimg.org/vgf674sun/woordy_screenshot.jpg)
+
 ## Play demo
 http://dburgos.github.io/woordy
 
